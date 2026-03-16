@@ -45,9 +45,11 @@ scene.add(light);
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
 
-camera.position.x = -12.096718471616615;
-camera.position.y = 16.596960998487443;
-camera.position.z = -43.5403799968879;
+camera.position.x = -12.282480442019207;
+camera.position.y = 17.69622997136163;
+camera.position.z = -37.46751429853807;
+
+
 
 
 const controls = new OrbitControls(camera, canvas);
