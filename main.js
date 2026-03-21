@@ -80,7 +80,18 @@ const intersectObjectNames = [
     "Bulbasaur",
     "Squirtle",
     "Pikachu",
+    "Charmander",
+    "Chicken",
+
 ]
+
+const character = {
+    instance: null,
+    moveDistence: 2,
+    jumpHeight: 1,
+    isMoving: false,
+    moveDuration: 0.2
+}
 
 const intersectObjects = []
 let intersectObject = ""
@@ -90,9 +101,14 @@ loader.load('portfolio.glb', function (glb) {
         if (intersectObjectNames.includes(child.name)) {
             intersectObjects.push(child)
         }
-        if (child.isMesh) {
+        if (child.isMesh && child.name != "Nameboard") {
             child.castShadow = true
             child.receiveShadow = true
+        }
+
+        if (child.name == "Character") {
+            character.instance = child
+            console.log(child)
         }
     })
     scene.add(glb.scene);
@@ -124,8 +140,68 @@ function onPointerMove(event) {
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1
 }
 
+function moveCharacter(targetPosition, targetRotaion) {
+    character.isMoving = true
+    const t1 = gsap.timeline({
+        onComplete: () => {
+            character.isMoving = false
+        }
+    })
+    t1.to(character.instance.position, {
+        x: targetPosition.x,
+        z: targetPosition.z,
+        duration: character.moveDuration
+    }, 0)
+
+    t1.to(character.instance.rotation, {
+        y: targetRotaion,
+        duration: character.moveDuration
+    }, 0)
+
+    t1.to(character.instance.position, {
+        y: character.instance.position.y + character.jumpHeight,
+        duration: character.moveDuration / 2,
+        yoyo: true,
+        repeat: 1
+    }, 0)
+}
+
+function onKeyDown(event) {
+    const targetPosition = new THREE.Vector3().copy(character.instance.position)
+    let targetRotaion = 0
+
+    if (character.isMoving) {
+        return
+    }
+
+    switch (event.key.toLowerCase()) {
+        case "w":
+        case "arrowup":
+            targetPosition.z += character.moveDistence
+            targetRotaion = THREE.MathUtils.degToRad(-90)
+            break
+        case "s":
+        case "arrowdown":
+            targetPosition.z -= character.moveDistence
+            targetRotaion = THREE.MathUtils.degToRad(90)
+            break
+        case "a":
+        case "arrowleft":
+            targetPosition.x += character.moveDistence
+            targetRotaion = THREE.MathUtils.degToRad(0)
+            break
+        case "d":
+        case "arrowright":
+            targetPosition.x -= character.moveDistence
+            targetRotaion = THREE.MathUtils.degToRad(180)
+            break
+    }
+
+    moveCharacter(targetPosition, targetRotaion)
+}
+
 function animate() {
-   //console.log(camera.position)
+    //console.log(camera.position)
     raycaster.setFromCamera(pointer, camera)
     const intersects = raycaster.intersectObjects(intersectObjects)
 
@@ -145,18 +221,50 @@ function animate() {
     renderer.render(scene, camera)
 }
 
+function jumpCharacter(meshId) {
+    const mesh = scene.getObjectByName(meshId)
+    const jumpHeight = 2
+    const jumpDuration = 0.5
+
+    const t2 = gsap.timeline()
+
+    t2.to(mesh.scale, {
+        x: 1.2,
+        y: 0.8,
+        z: 1.2,
+        duration: jumpDuration,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.out"
+    }, 0)
+
+    t2.to(mesh.position,
+        {
+            y: mesh.position.y + jumpHeight,
+            duration: jumpDuration / 2,
+            yoyo: true,
+            repeat: 1
+        }, 0
+    )
+}
+
 function handleOnClick() {
+    if (intersectObject != "") {
+        if (["Bulbasaur", "Squirtle", "Pikachu", "Charmander", "Chicken"].includes(intersectObject)) {
+            jumpCharacter(intersectObject)
+        }
+    }
     console.log(intersectObject)
     contentShow(intersectObject)
 }
 
-function handleExit()
-{
+function handleExit() {
     document.querySelector(".mainbanner").classList.toggle("hiddenclass")
 }
 
-document.querySelector(".exit").addEventListener("click" , handleExit)
+document.querySelector(".exit").addEventListener("click", handleExit)
 renderer.setAnimationLoop(animate);
 window.addEventListener("resize", handleResize)
 window.addEventListener("click", handleOnClick)
 window.addEventListener("pointermove", onPointerMove)
+window.addEventListener("keydown", onKeyDown)
