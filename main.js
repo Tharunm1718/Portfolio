@@ -1,3 +1,66 @@
+// ─── LOADING SCREEN ───────────────────────────────────────────
+(function () {
+    const bar     = document.getElementById('loading-bar');
+    const percent = document.getElementById('loading-percent');
+    const startBtn = document.getElementById('start-btn');
+    const screen   = document.getElementById('loading-screen');
+
+    let progress = 0;
+    let loaded   = false;
+
+    // Animate bar from 0 → 85% over ~2.5s to simulate loading
+    const fakeLoad = setInterval(() => {
+        if (progress < 85) {
+            progress += Math.random() * 8;
+            if (progress > 85) progress = 85;
+            bar.style.width = progress + '%';
+            percent.textContent = Math.floor(progress) + '%';
+        } else {
+            clearInterval(fakeLoad);
+            if (loaded) finishLoad();
+        }
+    }, 120);
+
+    // GLB loader signals completion via a custom event dispatched in main.js
+    window.addEventListener('portfolioLoaded', () => {
+        loaded = true;
+        if (progress >= 85) finishLoad();
+        else {
+            const finish = setInterval(() => {
+                progress += 4;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(finish);
+                    bar.style.width = '100%';
+                    percent.textContent = '100%';
+                    finishLoad();
+                } else {
+                    bar.style.width = progress + '%';
+                    percent.textContent = Math.floor(progress) + '%';
+                }
+            }, 60);
+        }
+    });
+
+    function finishLoad() {
+        bar.style.width = '100%';
+        percent.textContent = '100%';
+        document.querySelector('.loading-bar-label').textContent = 'READY!';
+        document.querySelector('.loading-bar-label').style.animation = 'none';
+        document.querySelector('.loading-bar-label').style.color = '#6dffb3';
+        startBtn.classList.remove('hidden-start');
+        startBtn.addEventListener('click', dismissScreen);
+        window.addEventListener('keydown', e => {
+            if (['Enter', ' '].includes(e.key)) dismissScreen();
+        }, { once: true });
+    }
+
+    function dismissScreen() {
+        screen.classList.add('fade-out');
+        setTimeout(() => screen.remove(), 800);
+    }
+})();
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -154,6 +217,7 @@ loader.load('portfolio.glb', function (glb) {
         }
     })
     scene.add(glb.scene);
+    window.dispatchEvent(new Event('portfolioLoaded'));
 }, undefined, function (error) {
     console.error(error);
 });
