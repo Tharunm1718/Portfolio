@@ -12,6 +12,60 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-stars"></div>
+        <div class="loading-content">
+            <div class="pixel-border">
+                <div class="loading-inner">
+                    <div class="press-start-blink">✦ WELCOME TO ✦</div>
+                    <h1 class="loading-title">
+                        <span class="name-tharun">THARUN'S</span>
+                        <span class="name-portfolio">PORTFOLIO</span>
+                        <span class="name-world">W O R L D</span>
+                    </h1>
+                    <div class="loading-divider"></div>
+                    <div class="controls-hint">
+                        <div class="controls-title">— CONTROLS —</div>
+                        <div class="controls-grid">
+                            <div class="key-group">
+                                <div class="key-row">
+                                    <span class="key">↑</span>
+                                </div>
+                                <div class="key-row">
+                                    <span class="key">←</span>
+                                    <span class="key">↓</span>
+                                    <span class="key">→</span>
+                                </div>
+                                <div class="key-label">Move Character</div>
+                            </div>
+                            <div class="key-group">
+                                <div class="key-row">
+                                    <span class="key wide-key">W</span>
+                                </div>
+                                <div class="key-row">
+                                    <span class="key">A</span>
+                                    <span class="key">S</span>
+                                    <span class="key">D</span>
+                                </div>
+                                <div class="key-label">Also Works!</div>
+                            </div>
+                        </div>
+                        <div class="click-hint">🖱 Click on objects to interact</div>
+                    </div>
+                    <div class="loading-bar-wrap">
+                        <div class="loading-bar-label">LOADING WORLD...</div>
+                        <div class="loading-bar-track">
+                            <div class="loading-bar-fill" id="loading-bar"></div>
+                        </div>
+                        <div class="loading-percent" id="loading-percent">0%</div>
+                    </div>
+                    <button class="start-btn hidden-start" id="start-btn">▶ PRESS START</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="experience">
         <canvas id="experience-canvas"></canvas>
     </div>
@@ -22,9 +76,13 @@
                 <h1 class="title">Project 1</h1>
                 <button class="exit">Exit</button>
             </div>
+            <a class="github" target="_blank">View on GitHub</a>
+            <br>
+            <a class="visit" target="_blank">Visit the project</a>
             <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores eligendi quas
                 veritatis cum aspernatur non qui voluptatibus dolore autem. A natus, praesentium reprehenderit et iure
-                illo fugiat dolor veniam nobis!</div>
+                illo fugiat dolor veniam nobis!
+            </div>
         </div>
     </div>
     <script type="importmap">
