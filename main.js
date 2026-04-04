@@ -124,18 +124,18 @@ camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 const mainBannerContent = {
     Project_1: {
         title: "PESCollab (Full-stack Web App)",
-        Content: "Developed a full-stack college-based open-source contribution platform...",
+        Content: "Developed a full-stack college-based open-source contribution platform inspired by GitHub concepts that enables students to share projects, collaborate on code, and participate in technical discussions within a campus community. Built using React, Node.js, Express, and Supabase with secure authentication and scalable backend APIs. Features include project uploads, code contributions, discussion forums, subject-based Q&A, and a reputation-driven leaderboard to encourage collaborative learning and peer-driven development  ",
         GitHub: "https://github.com/Tharunm1718/PESCollab",
         Visit: "https://pes-collab.vercel.app/"
     },
     Project_2: {
         title: "Howizit Fashion World",
-        Content: "A clothing e-commerce platform...",
+        Content: " A clothing e-commerce platform developed as a client project. Built with Node.js, Express, Supabase, and EJS. Features include authentication, cart management, admin dashboard, responsive UI, and secure deployment.",
         Visit: "https://howizit.vercel.app/"
     },
     Project_3: {
         title: "AgriConnect",
-        Content: "A platform that connects farmers...",
+        Content: "A platform that connects farmers with nearby agricultural workers for tasks such as harvesting, planting, and maintenance. Built using Node.js, Express, MongoDB, EJS, and deployed to Render. Integrated features include booking, recommendations, dashboards, OTP verification, and Cloudinary for image uploads. ",
         GitHub: "https://github.com/Tharunm1718/Agriconnect",
         Visit: "https://agriconnect-eight-pearl.vercel.app/"
     }
